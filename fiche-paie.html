@@ -1,0 +1,167 @@
+﻿<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Falinwa Madagascar - Générateur fiche de paie</title>
+  <link rel="stylesheet" href="css/fiche-paie.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="marque">
+        <img class="symbole" src="assets/falinwa-symbole.png" alt="Symbole Falinwa Madagascar">
+        <div>
+          <h1>Générateur fiche de paie</h1>
+        </div>
+      </div>
+      <img class="logo" src="assets/falinwa-logo.png" alt="Falinwa Madagascar">
+    </header>
+
+    <section class="contenu">
+      <form class="bloc saisie">
+        <h2>Préparer les fiches</h2>
+
+        <h3>Période</h3>
+        <div class="champ">
+          <label for="moispaie">Mois de paie</label>
+          <input id="moispaie" type="month" value="2026-04">
+        </div>
+
+        <h3>Salarié</h3>
+        <div class="champ">
+          <label for="matricule">Matricule</label>
+          <select id="matricule"></select>
+        </div>
+
+        <h3>Import Excel / CSV</h3>
+        <div class="champ">
+          <label for="fichierbase">Base salariés</label>
+          <input id="fichierbase" type="file" accept=".xlsx,.xls,.csv">
+        </div>
+        <div class="import-actions">
+          <button class="bouton-secondaire" type="button" id="telechargermodele">Télécharger le template</button>
+          <button class="bouton-principal" type="button" id="importerbase">Importer la base</button>
+        </div>
+        <p class="message-base" id="messagebase"></p>
+        <p class="aide">L'import se fait dans le navigateur. Le fichier n'est pas envoyé à un serveur et la liste est effacée à chaque actualisation.</p>
+
+        <button class="bouton-pdf" type="button" id="generertoutesfiches">Générer toutes les fiches de paie</button>
+        <button class="bouton-pdf secondaire" type="button" id="genereretatpaie">Générer l'état de paie</button>
+      </form>
+
+      <section class="bloc fiche">
+        <article class="apercu-paie" id="apercupaie">
+          <div class="paie-entete">
+            <div class="paie-identite">
+              <img class="paie-logo" src="assets/falinwa-logo.png" alt="Falinwa Madagascar">
+              <div class="infos-societe">
+                <strong>FALINWA Madagascar</strong>
+                NIF : 5 019 537 656<br>
+                STAT : 70202 11 2026 0 10051<br>
+                RCS : 2026B00056<br>
+                CNAPS employeur : 9D5101<br>
+                OSTIE employeur : 014776
+              </div>
+            </div>
+            <div class="paie-document">
+              <h2 class="paie-titre">Bulletin de paie</h2>
+              <div class="paie-periode">Période <span id="apercu-periode"></span></div>
+            </div>
+          </div>
+
+          <div class="paie-infos">
+            <div class="paie-boite">
+              <h4>Salarié</h4>
+              <div class="ligne-info"><span>Nom</span><strong id="apercu-nom"></strong></div>
+              <div class="ligne-info"><span>Prénoms</span><strong id="apercu-prenoms"></strong></div>
+              <div class="ligne-info"><span>Matricule</span><strong id="apercu-matricule"></strong></div>
+              <div class="ligne-info"><span>Fonction</span><strong id="apercu-fonction"></strong></div>
+              <div class="ligne-info"><span>Classification</span><strong id="apercu-classification"></strong></div>
+              <div class="ligne-info"><span>Groupe</span><strong id="apercu-groupe"></strong></div>
+              <div class="ligne-info"><span>Type contrat</span><strong id="apercu-contrat"></strong></div>
+              <div class="ligne-info"><span>Embauche</span><strong id="apercu-dateembauche"></strong></div>
+            </div>
+
+            <div class="paie-boite">
+              <h4>Congés payés</h4>
+              <table class="conges">
+                <thead>
+                  <tr>
+                    <th>Acquis</th>
+                    <th>Utilisés</th>
+                    <th>Restes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td id="apercu-congesacquis"></td>
+                    <td id="apercu-congesutilises"></td>
+                    <td id="apercu-congesrestants"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <section class="section-paie">
+            <h4>Gains Ariary</h4>
+            <table class="table-paie">
+              <thead>
+                <tr>
+                  <th>Libellé</th>
+                  <th>Taux / base</th>
+                  <th>Montant</th>
+                </tr>
+              </thead>
+              <tbody id="lignes-gains"></tbody>
+            </table>
+          </section>
+
+          <section class="section-paie">
+            <h4>Retenues</h4>
+            <table class="table-paie">
+              <thead>
+                <tr>
+                  <th>Libellé</th>
+                  <th>Taux / base</th>
+                  <th>Montant</th>
+                </tr>
+              </thead>
+              <tbody id="lignes-retenues"></tbody>
+            </table>
+          </section>
+
+          <div class="net-lettres" id="net-lettres"></div>
+
+          <div class="bas-page">
+            <div class="signature">Le Responsable Administratif</div>
+            <div class="signature">L'Employé(e)</div>
+          </div>
+        </article>
+
+        <section class="charges-patronales charges-page">
+          <h4>Charges patronales affichées hors fiche de paie</h4>
+          <table class="table-paie">
+            <thead>
+              <tr>
+                <th>Libellé</th>
+                <th>Taux / base</th>
+                <th>Montant</th>
+              </tr>
+            </thead>
+            <tbody id="lignes-patronales"></tbody>
+          </table>
+        </section>
+      </section>
+
+    </section>
+  </main>
+
+  <div class="lot-paie" id="lotpaie"></div>
+  <div class="etat-paie" id="etatpaie"></div>
+
+  <script src="assets/xlsx.full.min.js"></script>
+  <script src="js/fiche-paie.js"></script>
+</body>
+</html>
