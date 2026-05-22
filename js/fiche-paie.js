@@ -1,4 +1,4 @@
-﻿const plafondcotisations = 2101440;
+const plafondcotisations = 2101440;
     const reductionparpersonne = 2000;
     const irsaminimum = 3000;
     const heuresmensuelles = 173.33;
@@ -702,16 +702,19 @@
         return;
       }
 
-      const styles = document.querySelector("style").textContent;
+      const baseurl = new URL(".", location.href).href;
+      const feuillecss = new URL("css/fiche-paie.css", location.href).href;
+
       fenetre.document.open();
       fenetre.document.write(`
         <!doctype html>
         <html lang="fr">
           <head>
             <meta charset="utf-8">
+            <base href="${baseurl}">
             <title>${echapperhtml(titre)}</title>
+            <link rel="stylesheet" href="${feuillecss}">
             <style>
-              ${styles}
               @page { size: A4 landscape; margin: 6mm; }
               body { margin: 0; background: #ffffff; }
               .etat-paie { display: block; width: 285mm; min-height: 198mm; margin: 0; padding: 0; box-shadow: none; }
